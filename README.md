@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TSLA Stock Chart
 
-## Getting Started
+Ứng dụng web hiển thị biểu đồ giá cổ phiếu Tesla (TSLA) theo thời gian thực, xây dựng với Next.js, React và Recharts.
 
-First, run the development server:
+## Mục đích dự án
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Giúp người dùng theo dõi biến động giá cổ phiếu TSLA trực quan, dễ sử dụng.
+- Thực hành xây dựng ứng dụng với Next.js, React, TypeScript và thư viện vẽ biểu đồ.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tính năng
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Hiển thị biểu đồ giá TSLA với các khung thời gian: giờ, ngày, tuần, tháng.
+- Cập nhật dữ liệu giá theo thời gian thực (nếu API hỗ trợ).
+- Hiển thị thông tin tổng quan: giá hiện tại, số lượng điểm dữ liệu, khung thời gian, biến động giá.
+- Xử lý trạng thái tải dữ liệu, lỗi API.
+- Giao diện responsive, tối ưu cho cả desktop và mobile.
+- Sử dụng font Geist hiện đại.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Công nghệ sử dụng
 
-## Learn More
+- [Next.js](https://nextjs.org/) (React framework)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Recharts](https://recharts.org/) (vẽ biểu đồ)
+- [Tailwind CSS](https://tailwindcss.com/) (styling)
+- [Geist Font](https://vercel.com/font/geist)
 
-To learn more about Next.js, take a look at the following resources:
+## Cài đặt & chạy dự án
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone repo:**
+   ```
+   git clone <repo-url>
+   cd chart-test
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Cài đặt dependencies:**
+   ```
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Chạy development server:**
+   ```
+   npm run dev
+   ```
+   Truy cập [http://localhost:3000](http://localhost:3000) để xem ứng dụng.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Cấu trúc thư mục
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/page.tsx`: Trang chính hiển thị biểu đồ.
+- `src/components/`: Các component React dùng cho giao diện và biểu đồ.
+- `src/utils/`: Hàm tiện ích xử lý dữ liệu.
+- `public/`: Tài nguyên tĩnh (ảnh, favicon...).
+
+## Tùy chỉnh
+
+- Để chỉnh sửa trang chính, sửa file [`src/app/page.tsx`](src/app/page.tsx).
+- Có thể thay đổi font hoặc màu sắc trong file cấu hình Tailwind.
+
+## Triển khai
+
+- Có thể deploy lên [Vercel](https://vercel.com/) miễn phí.
+- Xem hướng dẫn tại [Next.js Deployment Documentation](https://nextjs.org/docs/deployment).
+
+## Tài liệu tham khảo
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Recharts Documentation](https://recharts.org/en-US/examples)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+---
