@@ -40,7 +40,7 @@ export default function Home() {
       console.log('API Response:', result);
       
       if (result.candles && Array.isArray(result.candles)) {
-        const formattedData = result.candles.map(item => ({
+        const formattedData = result.candles.map((item: { date: string; close: number }) => ({
           date: new Date(item.date).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
