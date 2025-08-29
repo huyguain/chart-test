@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 
 interface StockData {
@@ -22,14 +22,14 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
 
-  const timeFrames = [
+  const timeFrames = useMemo(() => [
     { key: 'hourly', label: 'Hourly', icon: '⏰' },
     { key: 'daily', label: 'Daily', icon: '📅' },
     { key: 'weekly', label: 'Weekly', icon: '📊' },
     { key: 'monthly', label: 'Monthly', icon: '📈' }
-  ];
+  ], []);
 
-  const fetchStockData = async (selectedTimeFrame: string) => {
+  const fetchStockData = useCallback(async (selectedTimeFrame: string) => {
     setLoading(true);
     setError('');
     
@@ -41,14 +41,13 @@ export default function Home() {
       }
       
       const result = await response.json();
-      console.log('API Response:', result);
       
       if (result.candles && Array.isArray(result.candles)) {
         const formattedData = result.candles.map((item: { date: string; close: number }) => {
           const date = new Date(item.date);
           let formattedDate = '';
           
-          if (timeFrame === 'hourly') {
+          if (selectedTimeFrame === 'hourly') {
             formattedDate = date.toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric'
@@ -57,13 +56,13 @@ export default function Home() {
               minute: '2-digit',
               hour12: false
             });
-          } else if (timeFrame === 'daily') {
+          } else if (selectedTimeFrame === 'daily') {
             formattedDate = date.toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
               year: '2-digit'
             });
-          } else if (timeFrame === 'weekly') {
+          } else if (selectedTimeFrame === 'weekly') {
             formattedDate = date.toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
@@ -83,7 +82,6 @@ export default function Home() {
           };
         });
         
-        console.log('Formatted data:', formattedData);
         setStockData(formattedData);
       } else {
         setError('Invalid data format received from API');
@@ -94,11 +92,11 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchStockData(timeFrame);
-  }, [timeFrame]);
+  }, [timeFrame, fetchStockData]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -111,29 +109,27 @@ export default function Home() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleTimeFrameChange = (newTimeFrame: string) => {
+  const handleTimeFrameChange = useCallback((newTimeFrame: string) => {
     setTimeFrame(newTimeFrame);
-  };
+  }, []);
 
-  const formatPrice = (price: number) => {
+  const formatPrice = useCallback((price: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     }).format(price);
-  };
+  }, []);
 
-  const getPriceChange = () => {
+  const priceChange = useMemo(() => {
     if (stockData.length < 2) return { change: 0, percentage: 0, isPositive: true };
     const currentPrice = stockData[stockData.length - 1].close;
     const previousPrice = stockData[stockData.length - 2].close;
     const change = currentPrice - previousPrice;
     const percentage = (change / previousPrice) * 100;
     return { change, percentage, isPositive: change >= 0 };
-  };
-
-  const priceChange = getPriceChange();
+  }, [stockData]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
